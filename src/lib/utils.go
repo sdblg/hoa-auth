@@ -4,6 +4,7 @@ import (
 	"flag"
 	"github.com/sdblg/hoa-auth/src/constants"
 	"os"
+	"regexp"
 
 	"github.com/joho/godotenv"
 	log "github.com/sirupsen/logrus"
@@ -23,4 +24,13 @@ func InitEnv() {
 	}
 
 	log.Infof("Current environment :: %v", environment)
+}
+
+var emailRegex = regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
+
+func IsEmailValid(e string) bool {
+	if len(e) < 3 && len(e) > 254 {
+		return false
+	}
+	return emailRegex.MatchString(e)
 }
